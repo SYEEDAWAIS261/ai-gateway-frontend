@@ -1,16 +1,9 @@
 import axios from 'axios';
 
-// Safe baseURL configuration for Next.js build & runtime
-const getBaseURL = () => {
-  if (typeof window !== 'undefined') {
-    return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080/api/v1';
-  }
-  return process.env.NEXT_PUBLIC_API_BASE_URL || 'https://ai-gateway-backend-lime.vercel.app/api/v1';
-};
-
 const API = axios.create({
-  baseURL: getBaseURL(),
-  withCredentials: true, // Backend ke credentials/cookies allow karne ke liye lazmi hai
+  // Ab hum direct backend URL ki bajaye apna relative path ya proxy use karenge
+  baseURL: '/api/v1', 
+  withCredentials: true,
 });
 
 // Pass Auth token automatically
