@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import { Cpu, Zap, Shield, Code2 } from 'lucide-react';
-
+import Footer from '../components/Footer';
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
@@ -54,6 +54,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
