@@ -1,16 +1,9 @@
 import axios from 'axios';
 
-// Safe helper to get the base URL during runtime
-const getBaseURL = () => {
-  const envUrl = typeof window !== 'undefined' 
-    ? process.env.NEXT_PUBLIC_API_BASE_URL 
-    : process.env.NEXT_PUBLIC_API_BASE_URL;
-  
-  return envUrl || 'http://localhost:8080/api/v1';
-};
-
 const API = axios.create({
-  baseURL: getBaseURL(),
+  baseURL: typeof window !== 'undefined' 
+    ? (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080/api/v1')
+    : (process.env.NEXT_PUBLIC_API_BASE_URL || 'https://ai-gateway-backend-lime.vercel.app/api/v1'),
 });
 
 // Pass Auth token automatically
