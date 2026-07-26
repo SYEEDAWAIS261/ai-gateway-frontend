@@ -1,7 +1,16 @@
 import axios from 'axios';
 
+// Safe helper to get the base URL during runtime
+const getBaseURL = () => {
+  const envUrl = typeof window !== 'undefined' 
+    ? process.env.NEXT_PUBLIC_API_BASE_URL 
+    : process.env.NEXT_PUBLIC_API_BASE_URL;
+  
+  return envUrl || 'http://localhost:8080/api/v1';
+};
+
 const API = axios.create({
-  baseURL: import.meta.env.NEXT_PUBLIC_API_BASE_URL|| 'http://localhost:8080/api/v1',
+  baseURL: getBaseURL(),
 });
 
 // Pass Auth token automatically
@@ -24,8 +33,8 @@ export const authAPI = {
 export const keysAPI = {
   getKeys: () => API.get('/keys'),
   createKey: (name) => API.post('/keys', { name }),
-  updateKey: (id, data) => API.put(`/keys/${id}`, data), // <- New Update API method
-  deleteKey: (id) => API.delete(`/keys/${id}`),          // <- Revoke replaced with deleteKey
+  updateKey: (id, data) => API.put(`/keys/${id}`, data),
+  deleteKey: (id) => API.delete(`/keys/${id}`),          
 };
 
 export default API;
