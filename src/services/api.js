@@ -9,7 +9,8 @@ const getBaseURL = () => {
 };
 
 const API = axios.create({
-  baseURL: getBaseURL(),
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://ai-gateway-backend-lime.vercel.app/api/v1',
+  withCredentials: true, // <-- Yeh line lazmi honi chahiye jab backend par credentials: true ho
 });
 
 // Pass Auth token automatically
