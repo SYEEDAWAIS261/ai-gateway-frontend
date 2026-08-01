@@ -2,12 +2,34 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Cpu, LogOut, User, Menu, X, LayoutDashboard, Sparkles, ChevronDown } from 'lucide-react';
+import { authAPI } from '../services/api'; // Agar api service available hai
 
-export default function Navbar({ user }) {
+export default function Navbar({ user: propUser }) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [authUser, setAuthUser] = useState(propUser);
+
+  // Fallback: Agar prop se user na aaye toh localStorage/API se fetch kar lo
+  useEffect(() => {
+    if (propUser) {
+      setAuthUser(propUser);
+      return;
+    }
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem('gateway_token') : null;
+    if (token) {
+      authAPI.getProfile()
+        .then((res) => {
+          setAuthUser(res.data?.data || res.data);
+        })
+        .catch(() => {
+          localStorage.removeItem('gateway_token');
+          setAuthUser(null);
+        });
+    }
+  }, [propUser]);
 
   // Add subtle shadow/border transition on window scroll
   useEffect(() => {
@@ -20,6 +42,7 @@ export default function Navbar({ user }) {
 
   const handleLogout = () => {
     localStorage.removeItem('gateway_token');
+    setAuthUser(null);
     router.push('/login');
   };
 
@@ -55,17 +78,17 @@ export default function Navbar({ user }) {
         
         {/* Right Actions: Conditional Rendering based on User Auth State */}
         <div className="hidden md:flex items-center gap-3">
-          {user ? (
+          {authUser ? (
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-2.5 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/60 px-3.5 py-1.5 rounded-2xl transition duration-200 cursor-pointer group shadow-inner"
               >
                 <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-brand-500 to-brand-400 text-slate-950 flex items-center justify-center font-bold text-xs shadow-md shadow-brand-500/20">
-                  {(user.email || user.name || 'U').charAt(0).toUpperCase()}
+                  {(authUser.email || authUser.name || 'U').charAt(0).toUpperCase()}
                 </div>
                 <div className="text-left">
-                  <p className="text-xs font-medium text-slate-200 max-w-[100px] truncate leading-tight">{user.name || user.email?.split('@')[0]}</p>
+                  <p className="text-xs font-medium text-slate-200 max-w-[100px] truncate leading-tight">{authUser.name || authUser.email?.split('@')[0]}</p>
                   <p className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Active</p>
                 </div>
                 <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
@@ -75,7 +98,7 @@ export default function Navbar({ user }) {
                 <div className="absolute right-0 mt-3 w-56 bg-slate-900/95 backdrop-blur-2xl border border-slate-800 rounded-2xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                   <div className="px-4 py-2.5 border-b border-slate-800/80">
                     <p className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Signed in as</p>
-                    <p className="text-xs font-medium text-slate-200 truncate mt-0.5">{user.email}</p>
+                    <p className="text-xs font-medium text-slate-200 truncate mt-0.5">{authUser.email}</p>
                   </div>
                   <div className="p-1">
                     <Link
@@ -136,11 +159,11 @@ export default function Navbar({ user }) {
           </div>
           
           <div className="pt-4 border-t border-slate-800/80">
-            {user ? (
+            {authUser ? (
               <div className="space-y-3">
                 <div className="px-3 py-2 bg-slate-900 rounded-xl border border-slate-800">
                   <p className="text-[10px] uppercase font-bold text-slate-500">Signed in as</p>
-                  <p className="text-xs text-slate-200 truncate">{user.email}</p>
+                  <p className="text-xs text-slate-200 truncate">{authUser.email}</p>
                 </div>
                 <button
                   onClick={handleLogout}
