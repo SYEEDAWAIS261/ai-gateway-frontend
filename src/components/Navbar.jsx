@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Cpu, LogOut, User, Menu, X, LayoutDashboard, BookOpen, Info, Mail, Sparkles, Command, Zap } from 'lucide-react';
+import { Cpu, LogOut, User, Menu, X, LayoutDashboard, Sparkles, ChevronDown } from 'lucide-react';
 
 export default function Navbar({ user }) {
   const router = useRouter();
@@ -53,7 +53,7 @@ export default function Navbar({ user }) {
           </nav>
         </div>
         
-        {/* Right Actions: User Profile / Auth */}
+        {/* Right Actions: Conditional Rendering based on User Auth State */}
         <div className="hidden md:flex items-center gap-3">
           {user ? (
             <div className="relative">
@@ -68,6 +68,7 @@ export default function Navbar({ user }) {
                   <p className="text-xs font-medium text-slate-200 max-w-[100px] truncate leading-tight">{user.name || user.email?.split('@')[0]}</p>
                   <p className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Active</p>
                 </div>
+                <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {dropdownOpen && (
@@ -97,21 +98,18 @@ export default function Navbar({ user }) {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-3">
               <Link
                 href="/login"
-                className="text-xs font-semibold text-slate-300 hover:text-white transition px-3 py-2 rounded-xl hover:bg-slate-900"
+                className="text-xs font-semibold text-slate-300 hover:text-white transition px-4 py-2.5 rounded-xl hover:bg-slate-900 border border-transparent hover:border-slate-800"
               >
                 Sign In
               </Link>
               <Link
                 href="/login"
-                className="relative group overflow-hidden rounded-xl p-px font-semibold text-xs"
+                className="bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition shadow-lg shadow-brand-600/25 flex items-center gap-1.5"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-brand-500 to-indigo-500 group-hover:opacity-90 transition"></span>
-                <span className="relative block px-4 py-2 rounded-[11px] bg-slate-950 text-white group-hover:bg-opacity-0 transition duration-300 shadow-lg shadow-brand-500/20">
-                  Get Started Free
-                </span>
+                Get Started Free
               </Link>
             </div>
           )}
@@ -120,7 +118,7 @@ export default function Navbar({ user }) {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden text-slate-300 hover:text-white p-2 bg-slate-900 border border-slate-800 rounded-xl"
+          className="md:hidden text-slate-300 hover:text-white p-2 bg-slate-900 border border-slate-800 rounded-xl cursor-pointer"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -146,7 +144,7 @@ export default function Navbar({ user }) {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 font-medium"
+                  className="w-full text-left text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 font-medium cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" /> Sign Out
                 </button>
@@ -165,7 +163,7 @@ export default function Navbar({ user }) {
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-center bg-brand-600 hover:bg-brand-500 text-white text-xs py-3 rounded-xl font-medium shadow-lg shadow-brand-600/20"
                 >
-                  Get Started
+                  Get Started Free
                 </Link>
               </div>
             )}
