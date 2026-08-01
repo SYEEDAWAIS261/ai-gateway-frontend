@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Sidebar from '../../components/Sidebar';
-import Navbar from '../../components/Navbar';
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
 import { Key, Plus, Copy, Trash2, CheckCircle2, ShieldAlert, Sparkles, Terminal } from 'lucide-react';
-import { authAPI } from '../../services/api';
+import { authAPI } from '../services/api';
 
 export default function ApiKeysPage() {
   const [user, setUser] = useState(null);
