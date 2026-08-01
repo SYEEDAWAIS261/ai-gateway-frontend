@@ -117,7 +117,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden selection:bg-brand-500 selection:text-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden selection:bg-brand-500 selection:text-white pt-28">
       
       {/* Background Ambient Glow Effects */}
       <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-brand-500/10 blur-[150px] pointer-events-none rounded-full" />
