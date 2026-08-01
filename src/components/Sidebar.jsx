@@ -7,7 +7,7 @@ export default function Sidebar() {
 
   const mainLinks = [
     { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'API Management', href: '/dashboard/keys', icon: Key }, // Optional sub-route ya anchor
+    { name: 'API Management', href: '/keys', icon: Key },
   ];
 
   const resourceLinks = [
