@@ -23,7 +23,7 @@ export default function Home() {
         {/* Main Headline */}
         <div className="space-y-6 max-w-3xl mx-auto">
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl text-slate-100 leading-[1.1]">
-            Unify Your AI Infrastructure with <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-500 to-emerald-400">Custom Gateway</span>
+            Unify Your AI Infrastructure with <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-emerald-400">Custom Gateway</span>
           </h1>
 
           <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
