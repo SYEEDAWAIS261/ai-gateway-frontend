@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import { Terminal, Copy, Check, Sparkles, Code2, Cpu, BookOpen, Layers, Activity, CheckCircle2, Server } from 'lucide-react';
 
 export default function Docs() {
+  const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('node');
   const [copiedSection, setCopiedSection] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
