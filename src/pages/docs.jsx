@@ -7,7 +7,7 @@ import { Terminal, Copy, Check, Sparkles, Code2, Cpu, BookOpen, Layers, Activity
 export default function Docs() {
   const [activeTab, setActiveTab] = useState('node');
   const [copiedSection, setCopiedSection] = useState(null);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
   const handleCopyCode = (code, sectionKey) => {
     navigator.clipboard.writeText(code);
     setCopiedSection(sectionKey);
@@ -61,6 +61,7 @@ print(response.choices[0].message.content)`,
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden selection:bg-indigo-500 selection:text-white">
+      <Navbar user={user} />
       <Head><title>API Docs & System Status - AI Gateway Pro</title></Head>
       
       {/* Background Ambient Glow Effects */}

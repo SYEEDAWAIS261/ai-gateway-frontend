@@ -14,7 +14,8 @@ export default function ApiKeysPage() {
   const [newKeyName, setNewKeyName] = useState('');
   const [copiedId, setCopiedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
+  
   useEffect(() => {
     authAPI?.getProfile?.().then(res => setUser(res.data?.data || res.data)).catch(() => {});
   }, []);
@@ -46,7 +47,7 @@ export default function ApiKeysPage() {
       <div className="flex flex-1 pt-20">
         <Sidebar />
         <main className="flex-1 p-8 max-w-6xl mx-auto space-y-8">
-          
+          <Navbar user={user} />
           {/* Header Banner */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-slate-900/60 border border-slate-800 p-6 rounded-2xl backdrop-blur-xl">
             <div>
