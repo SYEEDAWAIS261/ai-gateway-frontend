@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Cpu, LogOut, LayoutDashboard, Menu, X, ChevronDown, Sparkles } from 'lucide-react';
 import { authAPI } from '../services/api';
 
-export default function Navbar({ user: propUser, onToggleSidebar }) {
+export default function Navbar({ user: propUser }) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -153,21 +153,8 @@ export default function Navbar({ user: propUser, onToggleSidebar }) {
           )}
         </div>
 
-        {/* Mobile Right Controls: Sidebar Toggle (if on dashboard) + Menu Toggle */}
-        <div className="flex items-center gap-2 md:hidden">
-          {/* Agar user dashboard par hai aur onToggleSidebar function mila hai, toh sidebar button show karein */}
-          {onToggleSidebar && router.pathname === '/dashboard' && (
-            <button
-              onClick={onToggleSidebar}
-              className="text-indigo-400 hover:text-white p-2 bg-indigo-500/10 border border-indigo-500/30 rounded-xl cursor-pointer"
-              aria-label="Toggle Dashboard Sidebar"
-              title="Toggle Sidebar"
-            >
-              <LayoutDashboard className="w-5 h-5" />
-            </button>
-          )}
-
-          {/* Main Mobile Navigation Menu Toggle */}
+        {/* Mobile Right Menu Toggle Only */}
+        <div className="flex items-center md:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-slate-300 hover:text-white p-2 bg-slate-900 border border-slate-800 rounded-xl cursor-pointer"
@@ -178,7 +165,7 @@ export default function Navbar({ user: propUser, onToggleSidebar }) {
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu (Contains All Pages: Home, About, Contact, etc.) */}
+      {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-4 right-4 mt-2 bg-slate-950/95 backdrop-blur-2xl border border-slate-800 rounded-2xl p-5 space-y-4 md:hidden shadow-2xl animate-in slide-in-from-top-4 duration-200">
           <div className="space-y-1">

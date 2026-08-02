@@ -6,7 +6,7 @@ import ApiKeyTable from '../components/ApiKeyTable';
 import CreateKeyModal from '../components/CreateKeyModal';
 import UsageChart from '../components/UsageChart';
 import { keysAPI, authAPI } from '../services/api';
-import { Plus, Loader2, Sparkles, Key, ShieldCheck, Activity, Cpu } from 'lucide-react';
+import { Plus, Loader2, Sparkles, Key, ShieldCheck, Activity, Cpu, PanelLeftOpen } from 'lucide-react';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -120,18 +120,30 @@ export default function Dashboard() {
       <div className="absolute top-0 right-1/3 w-[350px] sm:w-[500px] h-[300px] bg-brand-500/10 blur-[120px] sm:blur-[150px] pointer-events-none rounded-full" />
       <div className="absolute top-1/2 left-10 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-500/5 blur-[100px] sm:blur-[140px] pointer-events-none rounded-full" />
 
-      {/* Navbar receives toggle handler for mobile menu */}
-      <Navbar user={user} onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+      {/* Clean Navbar without toggle button */}
+      <Navbar user={user} />
       
       <div className="flex relative z-10">
         <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
         <main className="flex-1 px-4 sm:px-6 lg:px-10 py-6 sm:py-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full overflow-x-hidden">
           
-          {/* Dashboard Header Bar */}
+          {/* Dashboard Header Bar with Professional Left Toggle Button */}
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-800/80 pb-6">
             <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-800 text-brand-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-xl">
-                <Sparkles className="w-3 h-3 shrink-0" /> <span className="truncate">Command Center & Credentials</span>
+              <div className="flex items-center gap-2.5">
+                {/* Professional Sidebar Toggle Button on Left Top */}
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className="lg:hidden flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900/90 border border-slate-700/80 text-indigo-400 text-xs font-medium hover:bg-slate-800 transition cursor-pointer shadow-sm"
+                  aria-label="Toggle Sidebar"
+                >
+                  <PanelLeftOpen className="w-4 h-4" />
+                  <span>Menu</span>
+                </button>
+
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-800 text-brand-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-xl">
+                  <Sparkles className="w-3 h-3 shrink-0" /> <span className="truncate">Command Center & Credentials</span>
+                </div>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">API Gateway Keys</h1>
               <p className="text-xs sm:text-sm text-slate-400">
