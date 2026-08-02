@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Cpu, LogOut, LayoutDashboard, Menu, X, ChevronDown, Sparkles } from 'lucide-react';
 import { authAPI } from '../services/api';
 
-export default function Navbar({ user: propUser }) {
+export default function Navbar({ user: propUser, onToggleSidebar }) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function Navbar({ user: propUser }) {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [], );
 
   const handleLogout = () => {
     localStorage.removeItem('gateway_token');
@@ -53,7 +53,7 @@ export default function Navbar({ user: propUser }) {
   ];
 
   return (
-<header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 transition-all duration-300">
       <div className={`max-w-7xl mx-auto flex items-center justify-between px-5 py-3 rounded-2xl transition-all duration-300 ${
         scrolled 
           ? 'bg-slate-950/85 backdrop-blur-xl border border-slate-800/80 shadow-2xl shadow-indigo-500/10' 
@@ -153,68 +153,15 @@ export default function Navbar({ user: propUser }) {
           )}
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Toggle -> Calls onToggleSidebar passed from Dashboard */}
         <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={onToggleSidebar}
           className="md:hidden text-slate-300 hover:text-white p-2 bg-slate-900 border border-slate-800 rounded-xl cursor-pointer"
+          aria-label="Toggle Sidebar"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          <Menu className="w-5 h-5" />
         </button>
       </div>
-
-      {/* Mobile Dropdown Menu */}
-      {mobileMenuOpen && (
-        <div className="absolute top-full left-4 right-4 mt-2 bg-slate-950/95 backdrop-blur-2xl border border-slate-800 rounded-2xl p-5 space-y-4 md:hidden shadow-2xl animate-in slide-in-from-top-4 duration-200">
-          <div className="space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block text-sm font-medium px-3 py-2 rounded-xl transition ${
-                  router.pathname === link.href ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-900 hover:text-white'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-          
-          <div className="pt-4 border-t border-slate-800">
-            {authUser ? (
-              <div className="space-y-3">
-                <div className="px-3 py-2 bg-slate-900 rounded-xl border border-slate-800">
-                  <p className="text-[10px] uppercase font-bold text-slate-500">Signed in as</p>
-                  <p className="text-xs text-slate-200 truncate">{authUser.email}</p>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 font-medium cursor-pointer"
-                >
-                  <LogOut className="w-4 h-4" /> Sign Out
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-3">
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-center bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs py-2.5 rounded-xl font-medium transition"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-center bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-2.5 rounded-xl font-medium shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-1"
-                >
-                  <Sparkles className="w-3.5 h-3.5" /> Get Started
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </header>
   );
 }
