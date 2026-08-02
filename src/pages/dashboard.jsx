@@ -17,8 +17,8 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
 
-  // Helper response parser matching Axios response
   const extractKeys = (res) => {
     if (Array.isArray(res?.data)) return res.data;
     if (Array.isArray(res?.data?.data)) return res.data.data;
@@ -67,7 +67,6 @@ export default function Dashboard() {
       setIsModalOpen(true);
       setKeyName('');
 
-      // Refresh keys list
       const updatedKeys = await keysAPI.getKeys();
       setApiKeys(extractKeys(updatedKeys));
     } catch (err) {
@@ -77,7 +76,6 @@ export default function Dashboard() {
     }
   };
 
-  // Delete key handler
   const handleDeleteKey = async (id) => {
     if (!id) return;
     if (!confirm('Are you sure you want to revoke and delete this secret key?')) return;
@@ -91,7 +89,6 @@ export default function Dashboard() {
     }
   };
 
-  // Edit key handler
   const handleEditKey = async (id, updatedData) => {
     try {
       const res = await keysAPI.updateKey(id, updatedData);
@@ -123,10 +120,11 @@ export default function Dashboard() {
       <div className="absolute top-0 right-1/3 w-[350px] sm:w-[500px] h-[300px] bg-brand-500/10 blur-[120px] sm:blur-[150px] pointer-events-none rounded-full" />
       <div className="absolute top-1/2 left-10 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-500/5 blur-[100px] sm:blur-[140px] pointer-events-none rounded-full" />
 
-      <Navbar user={user} />
+      {/* Navbar receives toggle handler for mobile menu */}
+      <Navbar user={user} onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
       
       <div className="flex relative z-10">
-        <Sidebar />
+        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
         <main className="flex-1 px-4 sm:px-6 lg:px-10 py-6 sm:py-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full overflow-x-hidden">
           
           {/* Dashboard Header Bar */}
